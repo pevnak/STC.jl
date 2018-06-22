@@ -9,17 +9,17 @@ After installation, go to the test directory and execute `julia runtests.jl`, wh
 # Examples
 
 To embed an image using S-Uniward, run
+
 `julia examples/suniward.jl --input path/to/imagefile.pgm -- output path/to/outputfile.pgm --height 3 -p 0.3`
 
-`method`    additive / variable use additive / non-additive S-Uniward
-`--height`  controls the height of the sub-matrix in the parity-check matrix
-`-p`        controls the payload
-`-h`        shows the help
+  - `method`    additive / variable use additive / non-additive S-Uniward
+  - `--height`  controls the height of the sub-matrix in the parity-check matrix
+  - `-p`        controls the payload
+  - `-h`        shows the help
 
 
 # Using your own distortion function
 
-To use your own distortion function, you need should create a type extending  `AbstractImageDistortion` abstract type and define following methods for it.
-`matchlsb!, readlsb, readlsbq, LSBcostfun, trypmone`.
+To use your own distortion function, you need should create a type extending  `AbstractImageDistortion` abstract type and define following methods: `matchlsb!`, `readlsb`, `readlsbq`, `LSBcostfun`, `trypmone`
 
 For a minimal viable example see `src/SUniward/minchanges.jl` demonstrating minimization of a number of embedding changes. 
