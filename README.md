@@ -2,7 +2,7 @@
 
 This code has been used to create experiments for the paper "Exploring Non-Additive Distortion in Steganography" by Tomas Pevny and Andrew Ker, presented at 6th ACM Workshop on Information Hiding and Multimedia Security in Innsbruck, Austria on June 20--22, 2018.
 
-At the moment, the code has been tested with Julia 6.2.
+At the moment, the code has been tested with ~~Julia 6.2.~~ Julia 1.5.2
 
 After installation, go to the test directory and execute `julia runtests.jl`, which verifies that everything is correct. Be sure that `julia` knows the path to the package, otherwise do `push!(LOAD_PATH,"/path/to/directory/with/STC`.
 
