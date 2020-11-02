@@ -1,4 +1,4 @@
-type IncrementalSUniward{B,T<:AbstractFloat} <: AbstractImageDistortion
+struct IncrementalSUniward{B,T<:AbstractFloat} <: AbstractImageDistortion
     image::Array{UInt8}
     invrs::Array{B,1}
     waveletplanes::Array{B,1}
@@ -15,7 +15,7 @@ function IncrementalSUniward(cover::Array{UInt8},n::Int;sigma=1.0,T::Type=Float6
     invrs=Array{typeof(paddedcover),1}(3);
     for f in 1:length(invrs)
         invrs[f] = padarray(zeros(T,size(cover)),Pad(:symmetric,[16,16],[16,16]))
-        invrs[f].parent.=1./(abs.(sameconv2(paddedcover.parent, flts[f]))+T(sigma))
+        invrs[f].parent .= 1 ./ (abs.(sameconv2(paddedcover.parent, flts[f])) + T(sigma))
     end
     mn = min(map(minimum,invrs)...)
     mx = max(map(maximum,invrs)...)

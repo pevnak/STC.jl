@@ -31,16 +31,16 @@ function randomizedtrellis(cover,stegos,message,hhat,h,embpath,randomnodes::Floa
                 # and have LSB set, which should correspond to w11
 
                 #if we want to decide the way randomly
-                w00 = isinf(wght[ind0])?wght[ind0]:rand()
-                w11 = isinf(wght[ind1])?wght[ind1]:rand()
+                w00 = isinf(wght[ind0]) ? wght[ind0] : rand()
+                w11 = isinf(wght[ind1]) ? wght[ind1] : rand()
 
                 if rand()>randomnodes
                     if Int(mod(stegos[ind0][embpath[indx]],2))==0
                         w00=wght[ind0]
-                        w11=(isinf(wght[ind1]))?wght[ind1]:LSBcostfun(stegos[ind1],embpath[indx])[2] ;
+                        w11=(isinf(wght[ind1])) ? wght[ind1] : LSBcostfun(stegos[ind1],embpath[indx])[2] ;
                     else
                         w11=wght[ind1]
-                        w00=(isinf(wght[ind0]))?wght[ind0]:LSBcostfun(stegos[ind0],embpath[indx])[1];
+                        w00=(isinf(wght[ind0])) ? wght[ind0] : LSBcostfun(stegos[ind0],embpath[indx])[1];
                     end
                     calculated_costs +=1
                 end
@@ -50,11 +50,11 @@ function randomizedtrellis(cover,stegos,message,hhat,h,embpath,randomnodes::Floa
                 if w00<w11
                     copy!(newstegos[ind0],stegos[ind0])
                     path[ind0,indx] = 0x0 
-                    newwght[ind0] = (isinf(w00))?w00:matchlsb!(newstegos[ind0],0x0,embpath[indx])
+                    newwght[ind0] = (isinf(w00)) ? w00 : matchlsb!(newstegos[ind0],0x0,embpath[indx])
                 else
                     copy!(newstegos[ind0],stegos[ind1])
                     path[ind0,indx] = 0x1
-                    newwght[ind0] = (isinf(w11))?w11:matchlsb!(newstegos[ind0],0x1,embpath[indx])
+                    newwght[ind0] = (isinf(w11)) ? w11 : matchlsb!(newstegos[ind0],0x1,embpath[indx])
                 end
             end
             indx+=1
@@ -82,7 +82,7 @@ function randomizedtrellis(cover,stegos,message,hhat,h,embpath,randomnodes::Floa
     # check that the extracted message match the embedded message
     if !isinf(embedding_cost)
         extm=extract(readlsb(stegos[1],embpath),hhat,h)[1:length(message)];
-        (sum(abs.(extm.!=message))==0)?info("message has been correctly extracted"):warn("message has not been correctly extracted");
+        (sum(abs.(extm.!=message))==0) ? info("message has been correctly extracted") : warn("message has not been correctly extracted");
     end
     return(deepcopy(stegos[1]),wght[1])
 end

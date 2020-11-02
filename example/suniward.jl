@@ -1,10 +1,10 @@
-
 using Images
+using Printf
 using FileIO
 using STC
 using STC.SUniward
-using JLD
 using ArgParse
+using Random
 using DataFrames
 
 function parsearguments(args)
@@ -16,7 +16,7 @@ function parsearguments(args)
             arg_type=Float64
             help = "payload to embed (default 0.3bpp"
         "--input"
-            default = "test/1.pgm"
+            default = "../test/1.pgm"
             arg_type=String
             help = "path to the input image (in pgm format)"
         "--output"
@@ -28,8 +28,8 @@ function parsearguments(args)
             arg_type=Int
             help = "height of the embedding matrix"
         "--method"
-            default = "variable"
-            help = "list of methods to use during embedding"
+            default = "dynamic"
+            help = "a methods to use during embedding"
     end
 
     parse_args(args, s,as_symbols=true)
@@ -58,14 +58,14 @@ numofblocks=Int(floor(length(cover)/numofcols));
 message=rand(0:2,numofblocks);
 embpath = randperm(length(cover));
 
-if settings[:method] == "variable"
+if settings[:method] == "dynamic"
     stegos = SUniward.IncrementalSUniward(cover,3^h;sigma=1.0,T=Float16);
     (stego,d1)=STC.variablecoding(cover,stegos,message,hhat,h,embpath,3);
     saveandshow(cover,stego,d1,settings[:output])
 elseif settings[:method] == "additive"
     ρ = SUniward.suniwardcosts(Float64.(cover));
-    stegos = [SUniward.SUniwardAdd(cover,ρ) for i in 1:3^h];
-    (stego,d1)=STC.variablecoding(cover,stegos,message,hhat,h,embpath,3);
+    stegos = [SUniward.SUniwardAdd(cover, ρ) for i in 1:3^h];
+    (stego, d1) = STC.variablecoding(cover,stegos,message,hhat,h,embpath,3);
     saveandshow(cover,stego,d1,settings[:output])
 else 
     error("unknown embedding method ",settings[:method])

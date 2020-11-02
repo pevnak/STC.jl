@@ -1,0 +1,11 @@
+name = "STC"
+uuid = "10e4060a-6f7e-49ed-b4fe-890996f0f860"
+authors = ["Pevnak <pevnak@gmail.com>"]
+version = "1.0.0"
+
+[deps]
+Images = "916415d5-f1e6-5110-898d-aaa5f9f070e0"
+Netpbm = "f09324ee-3d7c-5217-9330-fc30815ba969"
+OffsetArrays = "6fe1bfb0-de20-5000-8ca7-80f57d26f881"
+Printf = "de0858da-6303-5e67-8744-51eddeeeb8d7"
+ProgressMeter = "92933f4c-e287-5a05-a399-4b506db050ca"

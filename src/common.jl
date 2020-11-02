@@ -12,7 +12,7 @@ function walkbacktrellis(path,x,message,hhat,h)
 
     y=zeros(UInt8,length(x))  # the stego signal
     @inbounds for i = numofblocks:-1:1
-        hh=(length(message)-indm+1<h)?hh=2^(length(message)-indm+1)-1:nstates;
+        hh=(length(message)-indm+1<h) ? hh=2^(length(message)-indm+1)-1 : nstates;
         state = (2*state + message[indm])&nstates
         indm-=1
         @inbounds for j = length(hhat):-1:1

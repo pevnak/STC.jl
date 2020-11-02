@@ -1,5 +1,6 @@
 module STC
 using ProgressMeter
+using Printf
 import Base: setindex!,getindex,copy!
 export additivestc, extract
 
@@ -9,8 +10,9 @@ function trypmone end
 function updatedistortion! end
 abstract type AbstractImageDistortion end
 
-Base.getindex(image::T,i,j) where {T<:AbstractImageDistortion} = image.image[i,j]
-Base.getindex(image::T,i) where {T<:AbstractImageDistortion} = getindex(image,ind2sub((image.height,image.width),i)...)
+ind2sub(image::AbstractImageDistortion, i::Int) = Tuple(CartesianIndices((image.height,image.width))[i])
+Base.getindex(image::AbstractImageDistortion,i,j) = image.image[i,j]
+Base.getindex(image::AbstractImageDistortion,i) = getindex(image,ind2sub(image, i)...)
 
 include("lsbop.jl")
 include("additive.jl")

@@ -1,4 +1,4 @@
-type MinChanges
+struct MinChanges
     image::Matrix{UInt8}
     cover::Matrix{UInt8}
     distortion::Int

@@ -54,12 +54,12 @@ function variablecoding(cover,stegos,message,hhat,h,embpath,q=2)
     w=zeros(q^h,q);        #holds the costs of current "state"
     wght=zeros(q^h);        #holds the costs of current "state"
     newwght=zeros(q^h);     #contained for holding costs of currently generated states
-    wght[2:end]=Inf64;      
+    wght[2:end] .= Inf64;      
     indx=1  #this indexes the cover
     indm=1  #this indexes the message bits
     meter = Progress(numofblocks,5)
     for i in 1:numofblocks #iterate over sub-blocks, each coding a single message
-        hh=min(h,length(message)-indm+1)  #determine  effective height of the sub-matrix
+        hh = min(h, length(message) - indm + 1)  #determine  effective height of the sub-matrix
         for j in 1:length(hhat) #iterate over columns of the sub-block
 
             # determine costs of reaching state k from different stats
@@ -78,22 +78,22 @@ function variablecoding(cover,stegos,message,hhat,h,embpath,q=2)
 
         # After processing a sub-block, remove states that does not code the message
         for j = 0:q^(hh-1)-1
-            midx=q*j + message[indm]+1
+            midx = q*j + message[indm] + 1
             wght[j+1] = wght[midx]
             aa = stegos[midx]; stegos[midx] = stegos[j+1]; stegos[j+1] = aa;
         end
         # println()
-        wght[q^(hh-1)+1:end]=Inf64;
-        indm+=1
+        wght[q^(hh-1)+1:end] .= Inf64;
+        indm += 1
         next!(meter)
     end
     embedding_cost = wght[1]
 
     # check that the extracted message match the embedded message
     if !isinf(embedding_cost)
-        info(@sprintf("embedding costs by stc = %f",embedding_cost))
+        @info (@sprintf("embedding costs by stc = %f",embedding_cost))
         extm=extractq(readlsbq(stegos[1],embpath,q),hhat,h,q)[1:length(message)];
-        sum(abs.(extm.!=message)) !=0 && warn("message has not been correctly extracted");
+        sum(abs.(extm.!=message)) !=0 && @warn "message has not been correctly extracted"
     else
         warn("embedding has failed");
     end

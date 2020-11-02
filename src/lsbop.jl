@@ -1,7 +1,7 @@
 function LSBcostfun(stego::T,pidx) where {T<:AbstractImageDistortion}
     c0=stego.distortion
     c1=min(trypmone(stego,pidx)...)
-    (stego[pidx]&0x1 == 0x0)? (c0,c1) : (c1,c0)
+    (stego[pidx]&0x1 == 0x0) ? (c0,c1) : (c1,c0)
 end
 
 
